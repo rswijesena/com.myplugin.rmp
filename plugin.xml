@@ -17,9 +17,9 @@
       </view>
       <view
             category="com.myplugin.rmp"
-            class="com.myplugin.rmp.PropertyManagerView"
+            class="com.myplugin.rmp.views.PropertyManagerView"
             icon="icons/sample.gif"
-            id="com.myplugin.rmp.PropertyManagerView"
+            id="com.myplugin.rmp.views.PropertyManagerView"
             name="Property Manager View"
             restorable="true">
       </view>
@@ -106,6 +106,16 @@
             class="com.myplugin.rmp.preferences.PropertyManagerPreferencePage"
             id="com.myplugin.rmp.preferences.PropertyManagerPreferencePage"
             name="Property Manager Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="com.myplugin.rmp.propertyPage"
+            icon="icons/sample.gif"
+            id="com.myplugin.rmp.propertyPage"
+            name="com.myplugin.rmp.propertyPage"
+            objectClass="com.myplugin.rmp.views.PropertyManagerView$TreeObject">
       </page>
    </extension>
 

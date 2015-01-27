@@ -1,4 +1,4 @@
-package com.myplugin.rmp;
+package com.myplugin.rmp.views;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -33,16 +34,27 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PropertyDialogAction;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import com.myplugin.rmp.RmpPlugin;
+import com.myplugin.rmp.propertyPage;
 import com.myplugin.rmp.preferences.PreferenceConstants;
 
 public class PropertyManagerView extends ViewPart implements IResourceChangeListener {
+	
+	private static final String AUTHOR_ID = "RMP.author";
+	private static final TextPropertyDescriptor AUTHOR_PROP_DESC = new TextPropertyDescriptor(AUTHOR_ID,"author");
+	private static final IPropertyDescriptor[] DESCRIPTORS =  { AUTHOR_PROP_DESC };
+	
 	private TreeViewer viewer;
 	private TreeParent invisibleRoot;
 
-	class TreeObject implements IAdaptable {
+	public class TreeObject implements IAdaptable, IPropertySource {
 
 		private String name;
 		private TreeParent parent;
@@ -72,12 +84,51 @@ public class PropertyManagerView extends ViewPart implements IResourceChangeList
 			return null;
 		}
 
-		protected IResource getResouce() {
+		public IResource getResouce() {
 			return resouce;
 		}
 
 		protected void setResouce(IResource resouce) {
 			this.resouce = resouce;
+		}
+		
+		public Object getEditableValue() {
+			return null;
+		}
+
+		public IPropertyDescriptor[] getPropertyDescriptors() {
+			return DESCRIPTORS;
+		}
+
+		public Object getPropertyValue(Object id) {
+			try {
+				if (AUTHOR_ID.equals(id)) {
+					return resouce
+							.getPersistentProperty(propertyPage.AUTHOR_PROP_KEY);
+				}
+			} catch (Exception e) {
+
+			}
+			return null;
+		}
+
+		public boolean isPropertySet(Object id) {
+			return false;
+		}
+
+		public void resetPropertyValue(Object id) {
+
+		}
+
+		public void setPropertyValue(Object id, Object value) {
+			try {
+				if (AUTHOR_ID.equals(id)) {
+					resouce.setPersistentProperty(propertyPage.AUTHOR_PROP_KEY,
+							(String) value);
+				}
+			} catch (Exception e) {
+
+			}
 		}
 	}
 
@@ -220,6 +271,7 @@ public class PropertyManagerView extends ViewPart implements IResourceChangeList
 		viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setInput(getViewSite());
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+		getSite().setSelectionProvider(viewer);
 		hookContextMenu();
 		hookDoubleCLickAction();
 	}
@@ -262,6 +314,8 @@ public class PropertyManagerView extends ViewPart implements IResourceChangeList
 		};
 		refresh.setText("Refresh");
 		menuMgr.add(refresh);
+		menuMgr.add(new Separator());
+        menuMgr.add(new PropertyDialogAction(getSite(), viewer));
 	}
 
 	public void setFocus() {
