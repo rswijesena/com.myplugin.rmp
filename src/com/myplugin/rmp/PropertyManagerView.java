@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -34,6 +35,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
+
+import com.myplugin.rmp.preferences.PreferenceConstants;
 
 public class PropertyManagerView extends ViewPart implements IResourceChangeListener {
 	private TreeViewer viewer;
@@ -168,7 +171,10 @@ public class PropertyManagerView extends ViewPart implements IResourceChangeList
 	}
 
 	public void initialize() {
-		TreeParent root = new TreeParent("WorkSpace Property Files");
+		IPreferenceStore store = RmpPlugin.getDefault().getPreferenceStore();
+        String folderName = store.getString(PreferenceConstants.FOLDER_NAME);
+        TreeParent root = new TreeParent(folderName);
+        
 		try {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 

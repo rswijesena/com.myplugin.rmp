@@ -91,5 +91,22 @@
          </action>
       </viewContribution>
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.myplugin.rmp.preferences.PreferenceInitializer">
+      </initializer>
+      <initializer
+            class="com.myplugin.rmp.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.myplugin.rmp.preferences.PropertyManagerPreferencePage"
+            id="com.myplugin.rmp.preferences.PropertyManagerPreferencePage"
+            name="Property Manager Preferences">
+      </page>
+   </extension>
 
 </plugin>
