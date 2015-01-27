@@ -2,10 +2,13 @@ package com.myplugin.rmp.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PartInitException;
+
+import com.myplugin.rmp.wizards.CaptureEmployeeInfomrationWizard;
 
 public class OpenResourceManagerViewActionDelegate implements IWorkbenchWindowActionDelegate {
 
@@ -19,16 +22,10 @@ public class OpenResourceManagerViewActionDelegate implements IWorkbenchWindowAc
     public void dispose() {}
 
     public void run(IAction action) {
-
-                IWorkbenchPage page = window.getActivePage();
-
-                try {
-
-                   page.showView(ID); // use the Resource Manager View id to open up view.
-
-                } catch (PartInitException e) {
-     
-                }
+        CaptureEmployeeInfomrationWizard wizard = new CaptureEmployeeInfomrationWizard();
+        WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
+        dialog.create();
+        dialog.open();
     }
     public void selectionChanged(IAction action, ISelection selection) {}
 }
