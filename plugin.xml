@@ -16,5 +16,27 @@
             id="com.myplugin.rmp.views.ResourceManagerView">
       </view>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="com.myplugin.rmp.ResourceManagerPerspectiveFactory"
+            icon="icons/sample.gif"
+            id="plugin.rmp.ResourceManagerPerspective"
+            name="Resource Manager">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               id="com.myplugin.rmp.views.ResourceManagerView"
+               minimized="false"
+               relationship="stack"
+               relative="org.eclipse.ui.views.TaskList"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+   </extension>
 
 </plugin>
