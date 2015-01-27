@@ -15,6 +15,14 @@
             class="com.myplugin.rmp.views.ResourceManagerView"
             id="com.myplugin.rmp.views.ResourceManagerView">
       </view>
+      <view
+            category="com.myplugin.rmp"
+            class="com.myplugin.rmp.PropertyManagerView"
+            icon="icons/sample.gif"
+            id="com.myplugin.rmp.PropertyManagerView"
+            name="Property Manager View"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
